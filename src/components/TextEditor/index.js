@@ -1,103 +1,113 @@
 import {Component} from 'react'
+
 import {VscBold} from 'react-icons/vsc'
+
 import {GoItalic} from 'react-icons/go'
+
 import {AiOutlineUnderline} from 'react-icons/ai'
+
+import {
+  Heading,
+  Button,
+  Image,
+  ImageElement,
+  EditorContainer,
+  HrElement,
+  ButtonContainer,
+  TextAreaElement,
+  UnderlineButton,
+  ItalicButton,
+} from './style'
+
 import './index.css'
 
 class TextEditor extends Component {
-  state = {text: '', bold: false, italic: false, underline: false}
+  state = {textToBold: false, textToItalic: false, textToUnderline: false}
 
-  onChangeTextArea = event => {
-    this.setState({text: event.target.value})
+  bold = () => {
+    this.setState(prevState => ({textToBold: !prevState.textToBold}))
   }
 
-  onClickBoldIcon = () => {
-    this.setState(prevState => ({bold: !prevState.bold}))
+  italic = () => {
+    this.setState(prevState => ({textToItalic: !prevState.textToItalic}))
   }
 
-  onClickItalicIcon = () => {
-    this.setState(prevState => ({italic: !prevState.italic}))
-  }
-
-  onClickUnderLineIcon = () => {
-    this.setState(prevState => ({underline: !prevState.underline}))
+  underline = () => {
+    this.setState(prevState => ({textToUnderline: !prevState.textToUnderline}))
   }
 
   render() {
-    const {text, bold, italic, underline} = this.state
-    const italicName = italic ? 'italic' : null
-    const boldName = bold ? 'bold' : 'normal'
-    const underlineName = underline ? 'underline' : 'none'
-    const italicColor = italic ? '#faff00' : '#f1f5f9'
-    const boldColor = bold ? '#faff00' : '#f1f5f9'
-    const underlineColor = underline ? '#faff00' : '#f1f5f9'
+    const {textToBold, textToItalic, textToUnderline} = this.state
+
+    const color = textToBold === false ? '#f1f5f9' : ' #faff00'
+
+    const italicButtonColor = textToItalic === false ? '#f1f5f9' : ' #faff00'
+
+    const underlineButtonColor =
+      textToUnderline === false ? '#f1f5f9' : ' #faff00'
+
+    const fontWeight = textToBold === false ? 'normal' : 'bold'
+
+    const fontStyle = textToItalic === false ? 'normal' : 'italic'
+
+    const textDecoration = textToUnderline === false ? 'normal' : 'underline'
 
     return (
-      <div className="main-container">
-        <div className="responsive-container">
-          <div className="left-container">
-            <h1 className="heading">Text Editor</h1>
-            <img
-              src="https://assets.ccbp.in/frontend/react-js/text-editor-img.png"
-              alt="text-editor"
-              className="text-editor-image"
-            />
-          </div>
-          <div className="right-container">
-            <ul className="header">
-              <li>
-                <button
-                  onClick={this.onClickBoldIcon}
-                  className="bold-button"
-                  type="button"
-                  data-testid="bold"
-                  style={{color: boldColor}}
-                >
-                  {' '}
-                  <VscBold />{' '}
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={this.onClickItalicIcon}
-                  className="italic-button"
-                  type="button"
-                  data-testid="italic"
-                  style={{color: italicColor}}
-                >
-                  {' '}
-                  <GoItalic />{' '}
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={this.onClickUnderLineIcon}
-                  className="under-button"
-                  type="button"
-                  data-testId="underline"
-                  style={{color: underlineColor}}
-                >
-                  {' '}
-                  <AiOutlineUnderline />{' '}
-                </button>
-              </li>
-            </ul>
-            <hr className="horizontal-line1" />
-            <textarea
-              value={text}
-              rows="20"
-              cols="50"
-              className="text-input"
-              onChange={this.onChangeTextArea}
-              style={{
-                fontWeight: boldName,
-                textDecoration: underlineName,
-                fontFamily: italicName,
-              }}
-            >
-              {' '}
-              {text}{' '}
-            </textarea>
+      <div className="background-container">
+        <div className="central-container">
+          <div className="image-container">
+            <div>
+              <Heading>Text Editor</Heading>
+              <ImageElement>
+                <Image
+                  src="https://assets.ccbp.in/frontend/react-js/text-editor-img.png"
+                  className="image"
+                  alt="text editor"
+                />
+              </ImageElement>
+            </div>
+            <EditorContainer>
+              <ButtonContainer>
+                <li>
+                  <Button
+                    data-testid="bold"
+                    color={color}
+                    type="button"
+                    onClick={this.bold}
+                  >
+                    <VscBold size={25} />
+                  </Button>
+                </li>
+                <li>
+                  <ItalicButton
+                    className="button"
+                    data-testid="italic"
+                    type="button"
+                    color={italicButtonColor}
+                    onClick={this.italic}
+                  >
+                    <GoItalic size={25} />
+                  </ItalicButton>
+                </li>
+                <li>
+                  <UnderlineButton
+                    className="button"
+                    data-testid="underline"
+                    type="button"
+                    color={underlineButtonColor}
+                    onClick={this.underline}
+                  >
+                    <AiOutlineUnderline size={25} />
+                  </UnderlineButton>
+                </li>
+              </ButtonContainer>
+              <HrElement />
+              <TextAreaElement
+                fontWeight={fontWeight}
+                fontStyle={fontStyle}
+                textDecoration={textDecoration}
+              />
+            </EditorContainer>
           </div>
         </div>
       </div>
